@@ -1,0 +1,30 @@
+name: Deploy Directly to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          cd /home/ec2-user
+          if [ -d "Github_Actions_Poc1" ]; then
+            rm -rf Github_Actions_Poc1
+          fi
+          git clone https://github.com/MounikaGummadi30/Github_Actions_Poc1.git
+          cd Github_Actions_Poc1
+          chmod +x app.sh
+          ./app.sh
