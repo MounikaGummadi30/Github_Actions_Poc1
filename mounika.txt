@@ -1,0 +1,2 @@
+hello my name is mounika 
+this is my POC for the git hub actions deploy artifacts directly to the EC2
